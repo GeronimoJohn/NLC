@@ -20,9 +20,8 @@ const query = `
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState();
-  const [description, setDescription] = useState([]);
-  const [title, setTitle] = useState([]);
+  const [day, setDay] = useState();
+  const [sessions, setSessions] = useState([]);
 
   useEffect(() => {
     async function fetchContentfulApi() {
@@ -43,8 +42,9 @@ export default function App() {
             console.log(errors);
           }
           // console.log the data
-          console.log(data.nlc.day);
-          setData(data);
+          console.log(data);
+          setDay(data.nlc.day);
+          setSessions(data.nlc.sessions);
           setIsLoading(false);
         });
     }
@@ -58,21 +58,17 @@ export default function App() {
         <ActivityIndicator />
       ) : (
         <View>
-          <Text style={styles.title}>{data.nlc.day}</Text>
+          <Text style={styles.title}>{day}</Text>
           <View style={{ borderBottomWidth: 1, marginBottom: 12 }}></View>
-          {/* <FlatList
-            data={movies}
+          <FlatList
+            data={sessions}
             keyExtractor={({ id }, index) => id}
             renderItem={({ item }) => (
               <View style={{ paddingBottom: 10 }}>
-                <Text style={styles.movieText}>
-                  {item.id}. {item.title}
-                  {item.releaseYear}
-                </Text>
+                <Text style={styles.movieText}>{item}</Text>
               </View>
             )}
           />
-          <Text style={styles.description}>{description}</Text> */}
         </View>
       )}
     </SafeAreaView>
