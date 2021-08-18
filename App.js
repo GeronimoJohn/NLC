@@ -8,28 +8,48 @@ import {
   ActivityIndicator,
 } from "react-native";
 
-const movieUrl = "https://reactnative.dev/movies.json";
+const query = `
+  query {
+  nlc(id: "2V5E5Z8bPLgrR4sOiUOJ7E") {
+    day
+    sessions
+    test
+  }
+}
+`;
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [movies, setMovies] = useState([]);
+  const [data, setData] = useState();
   const [description, setDescription] = useState([]);
   const [title, setTitle] = useState([]);
 
   useEffect(() => {
-    async function fetchJsonAPI() {
-      fetch(movieUrl)
+    async function fetchContentfulApi() {
+      window
+        .fetch(
+          "https://graphql.contentful.com/content/v1/spaces/77f867d92inh?access_token=AhTMGjIGx1nflRAs-lxRR0bcD-osLEk-DQqKeIKLqJs",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ query }),
+          }
+        )
         .then((response) => response.json())
-        .then((json) => {
-          setMovies(json.movies);
-          setTitle(json.title);
-          setDescription(json.description);
-        })
-        .catch((error) => alert(error))
-        .finally(() => setIsLoading(false));
+        .then(({ data, errors }) => {
+          if (errors) {
+            console.log(errors);
+          }
+          // console.log the data
+          console.log(data.nlc.day);
+          setData(data);
+          setIsLoading(false);
+        });
     }
 
-    fetchJsonAPI();
+    fetchContentfulApi();
   }, []);
 
   return (
@@ -38,9 +58,9 @@ export default function App() {
         <ActivityIndicator />
       ) : (
         <View>
-          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.title}>{data.nlc.day}</Text>
           <View style={{ borderBottomWidth: 1, marginBottom: 12 }}></View>
-          <FlatList
+          {/* <FlatList
             data={movies}
             keyExtractor={({ id }, index) => id}
             renderItem={({ item }) => (
@@ -52,7 +72,7 @@ export default function App() {
               </View>
             )}
           />
-          <Text style={styles.description}>{description}</Text>
+          <Text style={styles.description}>{description}</Text> */}
         </View>
       )}
     </SafeAreaView>
