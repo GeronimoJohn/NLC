@@ -6,8 +6,11 @@ import {
   SafeAreaView,
   FlatList,
   ActivityIndicator,
+  ProgressBarAndroidComponent,
+  MaskedViewComponent,
 } from "react-native";
 
+import data from "./Data/FakeData";
 const movieUrl = "https://reactnative.dev/movies.json";
 
 export default function App() {
@@ -21,8 +24,8 @@ export default function App() {
       fetch(movieUrl)
         .then((response) => response.json())
         .then((json) => {
-          setMovies(json.movies);
           setTitle(json.title);
+          setMovies(json.movies);
           setDescription(json.description);
         })
         .catch((error) => alert(error))
@@ -38,7 +41,7 @@ export default function App() {
         <ActivityIndicator />
       ) : (
         <View>
-          <Text style={styles.title}>{title}</Text>
+          {/* <Text style={styles.title}>{title}</Text>
           <View style={{ borderBottomWidth: 1, marginBottom: 12 }}></View>
           <FlatList
             data={movies}
@@ -52,13 +55,29 @@ export default function App() {
               </View>
             )}
           />
-          <Text style={styles.description}>{description}</Text>
+          <Text style={styles.description}>{description}</Text> */}
+          <Text style={styles.title}>CCF 2021 DLA Program Flow</Text>
+            {data.program.days.events.map((event, i) => {
+              if (event.startTime < 1200) {
+                return <Text key={i}>{event.event}: {convert(event.startTime)}</Text>
+              }
+            })}
+
         </View>
       )}
     </SafeAreaView>
   );
 }
 
+
+function convert(timeInput) {
+  let hours24 = parseInt(timeInput.substring(0, 2), 10);
+  let hours = ((hours24+11) %12) + 1;
+  let amPm = hours24 > 11 ? 'pm' : 'am';
+  var minutes = timeInput.substring(2);
+
+  return hours + ":" + minutes + amPm
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
