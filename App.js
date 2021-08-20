@@ -1,10 +1,18 @@
 import React from "react";
 import Program from "./component";
+import Home from "./component/home";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <>
-      <Program />
-    </>
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Program" component={Program} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
