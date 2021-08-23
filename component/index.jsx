@@ -59,7 +59,7 @@ export default function Program() {
       ) : (
         <View>
           {contentfulData.map((data, i) => (
-            <View>
+            <>
               <Text style={styles.title} key={i}>
                 {data.day}
               </Text>
@@ -76,7 +76,7 @@ export default function Program() {
                   </View>
                 )}
               />
-            </View>
+            </>
           ))}
         </View>
       )}
