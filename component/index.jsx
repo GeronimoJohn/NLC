@@ -10,18 +10,18 @@ import {
 
 const query = `
 query {
-    nlc(id: "2V5E5Z8bPLgrR4sOiUOJ7E") {
-        day
-        sessions
-        test
+  nlcCollection(order: day_DESC) {
+    items {
+      day
+      sessions
     }
+  }
 }
 `;
 
 export default function Program() {
   const [isLoading, setIsLoading] = useState(true);
-  const [day, setDay] = useState();
-  const [sessions, setSessions] = useState([]);
+  const [contentfulData, setContenfulData] = useState();
 
   useEffect(() => {
     async function fetchContentfulApi() {
@@ -43,8 +43,8 @@ export default function Program() {
           }
           // console.log the data
           console.log(data);
-          setDay(data.nlc.day);
-          setSessions(data.nlc.sessions);
+          setContenfulData(data.nlcCollection.items);
+          // setSessions(data.nlc.sessions);
           setIsLoading(false);
         });
     }
@@ -58,17 +58,26 @@ export default function Program() {
         <ActivityIndicator />
       ) : (
         <View>
-          <Text style={styles.title}>{day}</Text>
-          <View style={{ borderBottomWidth: 1, marginBottom: 12 }}></View>
-          <FlatList
-            data={sessions}
-            keyExtractor={({ id }, index) => id}
-            renderItem={({ item }) => (
-              <View style={{ paddingBottom: 10 }}>
-                <Text style={styles.movieText}>{item}</Text>
-              </View>
-            )}
-          />
+          {contentfulData.map((data, i) => (
+            <View>
+              <Text style={styles.title} key={i}>
+                {data.day}
+              </Text>
+              <View
+                style={{ borderBottomWidth: 1, marginBottom: 12 }}
+                key={i + 2}
+              />
+              <FlatList
+                data={data.sessions}
+                keyExtractor={({ id }, index) => id}
+                renderItem={({ item, i }) => (
+                  <View style={{ paddingBottom: 10 }}>
+                    <Text style={styles.movieText}>{item}</Text>
+                  </View>
+                )}
+              />
+            </View>
+          ))}
         </View>
       )}
     </SafeAreaView>
