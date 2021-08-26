@@ -1,9 +1,9 @@
 import React from "react";
-import Program from "./component";
-import Home from "./component/home";
+import Program from "./component/Program/Program";
+import Home from "./component/Home/Home";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import About from "./component/about";
+import About from "./component/About/About";
 
 const Tab = createBottomTabNavigator();
 

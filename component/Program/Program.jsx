@@ -10,9 +10,9 @@ import {
 
 const query = `
 query {
-  nlcCollection(order: day_DESC) {
-    items {
-      day
+  nlcCollection(order: title_DESC) {
+   	items {
+      title
       sessions
     }
   }
@@ -21,7 +21,7 @@ query {
 
 export default function Program() {
   const [isLoading, setIsLoading] = useState(true);
-  const [contentfulData, setContenfulData] = useState();
+  const [contentfulData, setContentfulData] = useState();
 
   useEffect(() => {
     async function fetchContentfulApi() {
@@ -41,10 +41,8 @@ export default function Program() {
           if (errors) {
             console.log(errors);
           }
-          // console.log the data
           console.log(data);
-          setContenfulData(data.nlcCollection.items);
-          // setSessions(data.nlc.sessions);
+          setContentfulData(data.nlcCollection.items);
           setIsLoading(false);
         });
     }
@@ -61,12 +59,9 @@ export default function Program() {
           {contentfulData.map((data, i) => (
             <>
               <Text style={styles.title} key={i}>
-                {data.day}
+                {data.title}
               </Text>
-              <View
-                style={{ borderBottomWidth: 1, marginBottom: 12 }}
-                key={i + 2}
-              />
+              <View style={{ borderBottomWidth: 1, marginBottom: 12 }} />
               <FlatList
                 data={data.sessions}
                 keyExtractor={({ id }, index) => id}
