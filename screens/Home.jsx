@@ -60,11 +60,11 @@ export default function Home() {
       ) : (
         <View>
           {contentfulData.map((data, i) => (
-            <>
+            <View key={i}>
               <Image style={styles.tinyLogo} source={data.image.url} />
               <Text key={i}>{data.title}</Text>
               <Text>{data.about}</Text>
-            </>
+            </View>
           ))}
         </View>
       )}

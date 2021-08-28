@@ -58,15 +58,13 @@ export default function Program() {
         <View>
           {contentfulData.map((data, i) => (
             <>
-              <Text style={styles.title} key={i}>
-                {data.title}
-              </Text>
+              <Text style={styles.title}>{data.title}</Text>
               <View style={{ borderBottomWidth: 1, marginBottom: 12 }} />
               <FlatList
                 data={data.sessions}
                 keyExtractor={({ id }, index) => id}
                 renderItem={({ item, i }) => (
-                  <View style={{ paddingBottom: 10 }}>
+                  <View style={{ paddingBottom: 10 }} key={i}>
                     <Text style={styles.movieText}>{item}</Text>
                   </View>
                 )}
